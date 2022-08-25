@@ -18,8 +18,14 @@ export const getLastTags = async (req, res) => {
 };
 export const getAll = async (req, res) => {
   try {
-    const posts = await PostModel.find().populate("user").exec();
-
+    const { sort, order } = req.query;
+    const orderBy = order === "asc" ? 1 : -1;
+    const posts = sort
+      ? await PostModel.find()
+          .sort({ [sort]: orderBy })
+          .populate("user")
+          .exec()
+      : await PostModel.find().populate("user").exec();
     res.json(posts);
   } catch (err) {
     res.status(500).json({
@@ -56,7 +62,7 @@ export const getOne = async (req, res) => {
 
         res.json(doc);
       }
-    );
+    ).populate("user");
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -104,7 +110,7 @@ export const create = async (req, res) => {
       title: req.body.title,
       text: req.body.text,
       imageUrl: req.body.imageUrl,
-      tags: req.body.tags,
+      tags: req.body.tags.split(",").map((e) => e.trim()),
       user: req.userId,
     });
 
@@ -131,7 +137,7 @@ export const update = async (req, res) => {
         text: req.body.text,
         imageUrl: req.body.imageUrl,
         user: req.userId,
-        tags: req.body.tags,
+        tags: req.body.tags.split(",").map((e) => e.trim()),
       }
     );
 
