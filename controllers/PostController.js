@@ -2,13 +2,12 @@ import PostModel from "../models/Post.js";
 
 export const getLastTags = async (req, res) => {
   try {
-    const posts = await PostModel.find().limit(5).exec();
+    const posts = await PostModel.find().limit(10).exec();
 
-    const tags = posts
-      .map((obj) => obj.tags)
-      .flat()
-      .slice(0, 5);
-
+    const tags = Array.from(new Set(posts.map((obj) => obj.tags).flat())).slice(
+      0,
+      5
+    );
     res.json(tags);
   } catch (err) {
     res.status(500).json({
@@ -18,10 +17,11 @@ export const getLastTags = async (req, res) => {
 };
 export const getAll = async (req, res) => {
   try {
-    const { sort, order } = req.query;
+    const { sort, order, category } = req.query;
     const orderBy = order === "asc" ? 1 : -1;
+    const findBy = category ? { tags: category } : {};
     const posts = sort
-      ? await PostModel.find()
+      ? await PostModel.find(findBy)
           .sort({ [sort]: orderBy })
           .populate("user")
           .exec()
