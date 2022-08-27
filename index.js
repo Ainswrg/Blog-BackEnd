@@ -10,7 +10,8 @@ import {
   postCreateValidation,
 } from "./validation.js";
 
-import { checkAuth, handleValidationErrors } from "./utils/index.js";
+import { checkAuth } from "./middleware/index.js";
+import { handleValidationErrors } from "./utils/index.js";
 import { UserController, PostController } from "./controllers/index.js";
 
 mongoose
