@@ -8,11 +8,16 @@ import {
   registerValidation,
   loginValidation,
   postCreateValidation,
+  commentCreateValidation,
 } from "./validation.js";
 
 import { checkAuth } from "./middleware/index.js";
 import { handleValidationErrors } from "./utils/index.js";
-import { UserController, PostController } from "./controllers/index.js";
+import {
+  UserController,
+  PostController,
+  CommentController,
+} from "./controllers/index.js";
 
 mongoose
   .connect(
@@ -77,6 +82,16 @@ app.patch(
   handleValidationErrors,
   postCreateValidation,
   PostController.update
+);
+
+app.get("/comments", CommentController.getLast);
+app.get("/comments/:id", CommentController.getFromOnePost);
+app.post(
+  "/comments/:id",
+  checkAuth,
+  handleValidationErrors,
+  commentCreateValidation,
+  CommentController.create
 );
 
 app.listen(4444, (err) => {

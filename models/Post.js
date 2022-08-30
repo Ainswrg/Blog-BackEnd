@@ -9,7 +9,6 @@ const PostSchema = new mongoose.Schema(
     text: {
       type: String,
       required: true,
-      unique: true,
     },
     tags: {
       type: Array,
@@ -25,6 +24,16 @@ const PostSchema = new mongoose.Schema(
       required: true,
     },
     imageUrl: String,
+    comments: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Comment",
+      },
+    ],
+    commentCount: {
+      type: Number,
+      default: 0,
+    },
   },
   {
     timestamps: true,

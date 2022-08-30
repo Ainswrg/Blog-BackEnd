@@ -24,6 +24,7 @@ export const getAll = async (req, res) => {
       ? await PostModel.find(findBy)
           .sort({ [sort]: orderBy })
           .populate("user")
+          .populate("comments")
           .exec()
       : await PostModel.find().populate("user").exec();
     res.json(posts);
