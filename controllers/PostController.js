@@ -1,4 +1,7 @@
+/* eslint-disable no-param-reassign */
 import PostModel from "../models/Post.js";
+import CommentModel from "../models/Comment.js";
+import UserModel from "../models/User.js";
 
 export const getLastTags = async (req, res) => {
   try {
@@ -26,7 +29,11 @@ export const getAll = async (req, res) => {
           .populate("user")
           .populate("comments")
           .exec()
-      : await PostModel.find().populate("user").exec();
+      : await PostModel.find().populate("user").populate("comments").exec();
+    posts.forEach((post) => {
+      // eslint-disable-next-line no-param-reassign
+      post.commentsCount = post.comments.length;
+    });
     res.json(posts);
   } catch (err) {
     res.status(500).json({
@@ -60,10 +67,15 @@ export const getOne = async (req, res) => {
             message: "Article is not define",
           });
         }
-
+        doc.commentsCount = doc.comments.length;
         res.json(doc);
       }
-    ).populate("user");
+    )
+      .populate("user")
+      .populate({
+        path: "comments",
+        populate: { path: "user", model: UserModel },
+      });
   } catch (err) {
     console.log(err);
     res.status(500).json({
@@ -75,6 +87,7 @@ export const remove = async (req, res) => {
   try {
     const postId = req.params.id;
 
+    await CommentModel.deleteMany({ post: postId });
     PostModel.findOneAndDelete(
       {
         _id: postId,
