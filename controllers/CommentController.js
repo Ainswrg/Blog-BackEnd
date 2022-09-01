@@ -1,7 +1,7 @@
 import PostModel from "../models/Post.js";
 import CommentModel from "../models/Comment.js";
 
-export const getLast = async (req, res) => {
+export const getLastFive = async (req, res) => {
   try {
     const comments = await CommentModel.find().populate("user").limit(5).exec();
 
