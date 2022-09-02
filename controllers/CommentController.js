@@ -91,10 +91,6 @@ export const create = async (req, res) => {
 export const update = async (req, res) => {
   try {
     const commentId = req.params.id;
-
-    // const post = await PostModel.findById(req.body.postId);
-    // console.log(req.body.postId);
-    // console.log(post);
     await CommentModel.updateOne(
       {
         _id: commentId,
@@ -105,11 +101,6 @@ export const update = async (req, res) => {
         user: req.userId,
       }
     );
-
-    // post.comments.push(comment._id);
-    // post.commentsCount = post.comments.length;
-
-    // await post.save();
 
     res.json({
       success: true,
