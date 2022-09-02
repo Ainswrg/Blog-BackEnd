@@ -16,5 +16,6 @@ router.post(
   commentCreateValidation,
   CommentController.create
 );
+router.delete("/:id", checkAuth, CommentController.remove);
 
 export default router;
