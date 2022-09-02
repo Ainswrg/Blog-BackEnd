@@ -92,22 +92,24 @@ export const update = async (req, res) => {
   try {
     const commentId = req.params.id;
 
-    const comment = await CommentModel.updateOne(
+    // const post = await PostModel.findById(req.body.postId);
+    // console.log(req.body.postId);
+    // console.log(post);
+    await CommentModel.updateOne(
       {
         _id: commentId,
       },
       {
+        post: req.body.postId,
         text: req.body.text,
         user: req.userId,
       }
     );
 
-    const post = await PostModel.findById(commentId);
+    // post.comments.push(comment._id);
+    // post.commentsCount = post.comments.length;
 
-    post.comments.push(comment._id);
-    post.commentsCount = post.comments.length;
-
-    await post.save();
+    // await post.save();
 
     res.json({
       success: true,

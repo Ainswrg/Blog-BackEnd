@@ -17,5 +17,12 @@ router.post(
   CommentController.create
 );
 router.delete("/:id", checkAuth, CommentController.remove);
+router.patch(
+  "/:id",
+  checkAuth,
+  handleValidationErrors,
+  commentCreateValidation,
+  CommentController.update
+);
 
 export default router;
