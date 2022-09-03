@@ -19,6 +19,11 @@ Api for Blog.
   - [Get me](https://github.com/Ainswrg/Blog-BackEnd#get-me)
 - **Post**
   - [Get All Posts](https://github.com/Ainswrg/Blog-BackEnd#get-me)
+  - [Get Last 5 Tags](https://github.com/Ainswrg/Blog-BackEnd#get-tags)
+  - [Get One](https://github.com/Ainswrg/Blog-BackEnd#get-one)
+  - [Create](https://github.com/Ainswrg/Blog-BackEnd#create)
+  - [Update](https://github.com/Ainswrg/Blog-BackEnd#update)
+  - [Delete](https://github.com/Ainswrg/Blog-BackEnd#delete)
 
 
 ## **Register**
@@ -239,7 +244,7 @@ Returns json data about user.
 
 ## **Get All Posts**
 
-Returns json data about user.
+Returns json data with all posts.
 
 <details>
 
@@ -262,8 +267,10 @@ Returns json data about user.
 - **Query Params**
 
   **Optional:**
-
-  None
+ 
+    `sort=[integer]`
+  
+    `category=[integer]`
 
 - **Data Params**
 
@@ -319,6 +326,368 @@ Returns json data about user.
 - **Error Response:**
 
   * **Code:** 500 Can't find any posts<br />
+
+- **Notes:**
+
+  None
+
+</details>
+
+## **Get Last 5 Tags**
+
+Returns json data with tags.
+
+<details>
+
+- **URL**
+
+  /posts/tags
+
+- **Method:**
+
+  `GET`
+
+- **Headers:**
+
+  None
+
+- **URL Params**
+
+  None
+
+- **Query Params**
+
+  **Optional:**
+
+  None
+
+- **Data Params**
+
+  None
+
+- **Success Response:**
+
+  - **Code:** 200 OK <br />
+    **Content:**
+    ```json
+    [
+     "tag", "tag2"
+    ]
+    ```
+    **Headers:**
+  
+    None
+
+- **Error Response:**
+
+  * **Code:** 500 Can't find any tags<br />
+
+- **Notes:**
+
+  None
+
+</details>
+
+## **Get One**
+
+Returns json data with one post.
+
+<details>
+
+- **URL**
+
+  /posts/:id
+
+- **Method:**
+
+  `GET`
+
+- **Headers:**
+
+  None
+
+- **URL Params**
+
+  **Required:**
+ 
+    `id=[integer]`
+
+- **Query Params**
+
+  **Optional:**
+
+  None
+
+- **Data Params**
+
+  None
+
+- **Success Response:**
+
+  - **Code:** 200 OK <br />
+    **Content:**
+    ```json
+    {
+		"_id": "63105bde389a9005523453b3",
+		"title": "New Test",
+		"text": "**Where To Get Support**\n.",
+		"tags": [
+			"test"
+		],
+		"viewsCount": 12,
+		"user": {
+			"_id": "6304fc0d8e1f729139902031",
+			"fullName": "Jessica Jons",
+			"email": "jess@gmail.com",
+			"passwordHash": "$2b$10$Opi00SuP9AtBY9mFfc9f3eDgF2bJMyjFCxWn33rG0bDN.OccjS8OK",
+			"createdAt": "2022-08-23T16:10:53.643Z",
+			"updatedAt": "2022-08-23T16:10:53.643Z",
+			"__v": 0,
+			" avatarUrl": "https://mui.com/static/images/avatar/7.jpg"
+		},
+		"imageUrl": "uploads/wallhaven-pkj789.jpg",
+		"comments": [
+			{
+				"_id": "6310bce24e6c544eaf73956f",
+				"text": "Hell year",
+				"user": "6304fc0d8e1f729139902031",
+				"post": "63105bde389a9005523453b3",
+				"createdAt": "2022-09-01T14:08:34.093Z",
+				"updatedAt": "2022-09-01T14:08:34.093Z",
+				"__v": 0
+			}
+		],
+		"commentsCount": 1,
+		"createdAt": "2022-09-01T07:14:38.045Z",
+		"updatedAt": "2022-09-02T05:16:40.198Z",
+		"__v": 2
+	}
+    ```
+    **Headers:**
+  
+    None
+
+- **Error Response:**
+
+  * **Code:** 404 Article is not define<br />
+  * **Code:** 500 Can't find post<br />
+
+- **Notes:**
+
+  None
+
+</details>
+
+## **Create**
+
+Creates a new post.
+
+<details>
+
+- **URL**
+
+  /posts/addPost
+
+- **Method:**
+
+  `POST`
+
+- **Headers:**
+
+  'Content-Type': 'application/json'
+  'authorization: 'Bearer token'
+
+- **URL Params**
+
+  None
+
+- **Query Params**
+
+  **Optional:**
+
+  None
+
+- **Data Params**
+
+  ```typescript
+    {
+      title: string,
+      text: string,
+      imageUrl: string,
+      tags: string[]
+    }
+  ```
+
+- **Success Response:**
+
+  - **Code:** 200 OK <br />
+    **Content:**
+    ```json
+    [
+      {
+        "title": "TestPost",
+        "text": "TestText",
+        "tags": [
+          "react",
+          "js"
+        ],
+        "viewsCount": 0,
+        "user": "63021b92fca485f6cbe95a36",
+        "imageUrl": "data:image/png",
+        "comments": [],
+        "commentCount": 0,
+        "_id": "630e5333a0d95553eb062f00",
+        "createdAt": "2022-08-30T18:13:07.490Z",
+        "updatedAt": "2022-08-30T18:13:07.490Z",
+        "__v": 0
+      },
+    ]
+    ```
+    **Headers:**
+  
+    None
+
+- **Error Response:**
+
+  * **Code:** 500 Can't create article <br />
+      
+
+- **Notes:**
+
+  None
+
+</details>
+
+## **Update**
+
+Update post.
+
+<details>
+
+- **URL**
+
+  /posts/:id
+
+- **Method:**
+
+  `PUT`
+
+- **Headers:**
+
+  'Content-Type': 'application/json'
+  'authorization: 'Bearer token'
+
+- **URL Params**
+
+  **Required:**
+ 
+    `id=[integer]`
+
+- **Query Params**
+
+  **Optional:**
+
+  None
+
+- **Data Params**
+
+  ```typescript
+    {
+      title: string,
+      text: string,
+      imageUrl: string,
+      tags: string[]
+    }
+  ```
+
+- **Success Response:**
+
+  - **Code:** 200 OK <br />
+    **Content:**
+    ```json
+    [
+      {
+        "success": true
+      }
+    ]
+    ```
+    **Headers:**
+  
+    None
+
+- **Error Response:**
+
+  * **Code:** 500 Can't update post <br />
+      
+
+- **Notes:**
+
+  None
+
+</details>
+
+## **Delete**
+
+Delete post.
+
+<details>
+
+- **URL**
+
+  /posts/:id
+
+- **Method:**
+
+  `DELETE`
+
+- **Headers:**
+
+  'Content-Type': 'application/json'
+  'authorization: 'Bearer token'
+
+- **URL Params**
+
+  **Required:**
+ 
+    `id=[integer]`
+
+- **Query Params**
+
+  **Optional:**
+
+  None
+
+- **Data Params**
+
+  ```typescript
+    {
+      title: string,
+      text: string,
+      imageUrl: string,
+      tags: string[]
+    }
+  ```
+
+- **Success Response:**
+
+  - **Code:** 200 OK <br />
+    **Content:**
+    ```json
+    [
+      {
+        "success": true
+      }
+    ]
+    ```
+    **Headers:**
+  
+    None
+
+- **Error Response:**
+
+  * **Code:** 404 Article is not define <br />
+  * **Code:** 500 Can't remove post <br />
+      
 
 - **Notes:**
 
