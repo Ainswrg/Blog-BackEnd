@@ -1,6 +1,6 @@
 # Blog-api
 
-Api for Blog.
+Api for [Blog: Front-End](https://github.com/Ainswrg/Blog-Front-End).
 Mongoose, Express, React, Node
 
 ## Setup and Running
