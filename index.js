@@ -3,11 +3,9 @@ import cors from "cors";
 
 import mongoose from "mongoose";
 import IndexRoute from "./routers/index.js";
-
+// const mongo = process.env.MONGODB_URI || mongodb+srv://ainswrg:ainswrg@cluster0.rbbcvgd.mongodb.net/blog?retryWrites=true&w=majority
 mongoose
-  .connect(
-    "mongodb+srv://ainswrg:ainswrg@cluster0.rbbcvgd.mongodb.net/blog?retryWrites=true&w=majority"
-  )
+  .connect(process.env.MONGODB_URI)
   .then(() => console.log("DB OK"))
   .catch((err) => console.log(`DB Error: ${err}`));
 
