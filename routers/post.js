@@ -18,7 +18,7 @@ router.post(
   PostController.create
 );
 router.delete("/:id", checkAuth, PostController.remove);
-router.patch(
+router.put(
   "/:id",
   checkAuth,
   handleValidationErrors,
